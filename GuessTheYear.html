@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Guess The Year</title>
+</head>
+
+<body>
+    <h1 id="question">Question goes here</h1>
+    <form id=form>
+        <input id="yearInput" type="number" min="1950" max="2025" required>
+        <input id="enter" type="button" value="Enter" onclick="checkAnswer(event)">
+        <div id="response"></div>
+    </form>
+    <button id="next" onclick="getQuestion()">Next Question</button>
+    <script>
+        let questionTag = document.getElementById("question");
+        let responseTag = document.getElementById("response");
+        let form = document.getElementById("form")
+        let yearInput = document.getElementById("yearInput");
+        let questionBank = [];
+        let currentAnswer;
+        let currentQuestion;
+        let counter = 0;
+
+        async function getQuestions() {
+            let response = await fetch('InternetHistoryQuestions.csv');
+            let csvText = await response.text();
+            return csvText;
+        }
+
+        async function formatCSV() {
+            let csvText = await getQuestions();
+            let lines = csvText.split('\n');
+
+            let questions = [];
+
+            for (let i = 0; i < lines.length; i++) {
+                let value = lines[i].split(',');
+                value = [value[0], value[1].replace("\r", "")]
+                questions.push(value);
+            }
+
+            return questions;
+        }
+
+        function getQuestion() {
+            formatCSV().then(data => {
+                currentQuestion = Math.floor(Math.random() * data.length);
+                currentAnswer = parseInt(data[currentQuestion][0]);
+                questionTag.innerText = data[currentQuestion][1];
+                yearInput.value = "";
+                responseTag.innerText = "";
+                document.getElementById("enter").disabled = false;
+                document.getElementById("next").disabled = true;
+            });
+        }
+
+        function checkAnswer(event) {
+            document.getElementById("enter").disabled = true;
+            document.getElementById("next").disabled = false;
+            let guess = parseInt(yearInput.value)
+
+            if (guess === currentAnswer) {
+                responseTag.innerText = "Correct!"
+            } else {
+                responseTag.innerText = "Wrong! The correct answer was " + currentAnswer;
+            }
+        }
+
+        getQuestion();
+
+    </script>
+
+</body>
+
+</html>

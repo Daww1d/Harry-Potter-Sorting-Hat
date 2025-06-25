@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Internet Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        a:visited {
+            text-decoration: none;
+            color: #d1dbe4;
+        }
+
+        a:hover {
+            text-decoration: none;
+            color: #d1dbe4;
+        }
+
+        a:focus {
+            text-decoration: none;
+            color: #d1dbe4;
+        }
+
+        a:hover,
+        a:active {
+            text-decoration: none;
+            color: #d1dbe4
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+
+            width: 50%;
+            height: 50%;
+            border-radius: 30px;
+            background: #476f95;
+            box-shadow: 15px 15px 30px #476f95,
+                -15px -15px 30px #476f95;
+        }
+
+        .centre {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 5em;
+            margin-top: 20px;
+            font-weight: 700;
+            font-family: 'Roboto';
+            color: #d1dbe4;
+        }
+
+        .button1 {
+            background: transparent;
+            border: 5px solid #a3b7ca;
+            border-radius: 10px;
+            width: 300px;
+            height: 100px;
+            font-size: 30px;
+            font-family: 'roboto';
+            color: #d1dbe4;
+        }
+
+        .button1:hover {
+            background: #a3b7ca;
+            box-shadow: 10px 10px 20px #a3b7ca,
+                -10px -10px 20px #a3b7ca;
+        }
+
+        .button-holder {
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="centre">
+        <div class="main">
+            <h1 class="title">Select your game mode</h1>
+            <div class="button-holder">
+                <button class="button1"><span><a href=HigherLower.html>Higher or Lower</a></span></button>
+            </div>
+            <div class="button-holder">
+                <button class="button1"><span><a href=GuessTheYear.html>Guess the year</a></span></button>
+            </div>
+        </div>
+    </div>
+</body>

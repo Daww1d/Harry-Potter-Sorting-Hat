@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Higher or Lower</title>
+</head>
+
+<body>
+    <h1 id="question">Question goes here</h1>
+    <div id="baseYear"></div>
+    <input id="higher" type="button" value="After" onclick="checkAnswer('After')">
+    <input id="lower" type="button" value="Before" onclick="checkAnswer('Before')">
+    <div id="response"></div>
+    <button id="next" onclick="getQuestion()">Next Question</button>
+
+    <script>
+        let questionBank = [];
+        let currentAnswer;
+        let currentQuestion;
+        let questionTag = document.getElementById("question");
+
+        async function getQuestions() {
+            let response = await fetch('InternetHistoryQuestions.csv');
+            let csvText = await response.text();
+            return csvText;
+        }
+
+        async function formatCSV() {
+            let csvText = await getQuestions();
+            let lines = csvText.split('\n');
+
+            let questions = [];
+
+            for (let i = 0; i < lines.length; i++) {
+                let value = lines[i].split(',');
+                value = [value[0], value[1].replace("\r", "")]
+                questions.push(value);
+            }
+
+            return questions;
+        }
+
+        function getQuestion() {
+            formatCSV().then(data => {
+                currentQuestion = Math.floor(Math.random() * data.length);
+                questionTag.innerText = data[currentQuestion][1];
+                baseValue = parseInt(data[currentQuestion][0]) + (Math.floor(Math.random() * 7) - 3);
+                while (baseValue === 0) {
+                    baseValue = parseInt(data[currentAnswer][0]) + (Math.floor(Math.random() * 7) - 3);
+                }
+                console.log(baseValue);
+                console.log(currentAnswer)
+                if (baseValue < parseInt(data[currentQuestion][0])) {
+                    currentAnswer = "After";
+                } else {
+                    currentAnswer = "Before";
+                }
+
+                document.getElementById("baseYear").innerText = baseValue
+            });
+
+            document.getElementById("next").disabled = true;
+            document.getElementById("higher").disabled = false;
+            document.getElementById("lower").disabled = false;
+        }
+
+        function checkAnswer(answer) {
+            document.getElementById("next").disabled = false;
+            document.getElementById("higher").disabled = true;
+            document.getElementById("lower").disabled = true;
+            if (answer === currentAnswer) {
+                document.getElementById("response").innerText = "Correct!";
+            } else {
+                document.getElementById("response").innerText = "Incorrect! The correct answer was " + currentAnswer + ".";
+            }
+
+        }
+
+
+        getQuestion();
+
+    </script>
+</body>
